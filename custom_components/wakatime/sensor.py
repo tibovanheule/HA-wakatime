@@ -21,11 +21,16 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from . import WakatimeDataUpdateCoordinator
 from .const import (
     DOMAIN,
+    ICON_ACTIVE_TIME,
+    ICON_CATEGORY,
     ICON_CODING,
     ICON_EDITOR,
     ICON_LANGUAGE,
     ICON_OPERATING_SYSTEM,
+    ICON_PRODUCTIVITY,
     ICON_PROJECT,
+    ICON_STREAK,
+    ICON_WEEKLY,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -58,6 +63,37 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
         key="top_os",
         translation_key="top_operating_system",
         icon=ICON_OPERATING_SYSTEM,
+    ),
+    # New sensor types
+    SensorEntityDescription(
+        key="top_category",
+        translation_key="top_category",
+        icon=ICON_CATEGORY,
+    ),
+    SensorEntityDescription(
+        key="weekly_average",
+        translation_key="weekly_average",
+        native_unit_of_measurement=UnitOfTime.SECONDS,
+        device_class=SensorDeviceClass.DURATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon=ICON_WEEKLY,
+    ),
+    SensorEntityDescription(
+        key="productivity_level",
+        translation_key="productivity_level",
+        icon=ICON_PRODUCTIVITY,
+    ),
+    SensorEntityDescription(
+        key="most_active_time",
+        translation_key="most_active_time",
+        icon=ICON_ACTIVE_TIME,
+    ),
+    SensorEntityDescription(
+        key="current_streak",
+        translation_key="current_streak",
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement="days",
+        icon=ICON_STREAK,
     ),
 )
 
@@ -102,7 +138,6 @@ class WakatimeSensor(CoordinatorEntity, SensorEntity):
                 "name": user.get("display_name", "Wakatime"),
                 "manufacturer": "Wakatime",
                 "model": "API",
-                "sw_version": user.get("last_heartbeat_at", ""),
             }
 
     @property
@@ -164,6 +199,75 @@ class WakatimeSensor(CoordinatorEntity, SensorEntity):
                     return operating_systems[0].get("name", "Unknown")
             return "Unknown"
 
+        # New sensor implementations
+        if self.entity_description.key == "top_category":
+            if (
+                "stats" in self.coordinator.data
+                and "data" in self.coordinator.data["stats"]
+            ):
+                categories = self.coordinator.data["stats"]["data"].get(
+                    "categories", []
+                )
+                if categories:
+                    return categories[0].get("name", "Unknown")
+            return "Unknown"
+
+        if self.entity_description.key == "weekly_average":
+            if (
+                "last_7_days" in self.coordinator.data
+                and "data" in self.coordinator.data["last_7_days"]
+            ):
+                days = self.coordinator.data["last_7_days"]["data"]
+                if days:
+                    total_seconds = sum(
+                        day["grand_total"].get("total_seconds", 0)
+                        for day in days
+                        if "grand_total" in day
+                    )
+                    return int(total_seconds / 7)  # Average per day
+            return 0
+
+        if self.entity_description.key == "productivity_level":
+            if (
+                "all_time" in self.coordinator.data
+                and "data" in self.coordinator.data["all_time"]
+            ):
+                daily_avg = self.coordinator.data["all_time"]["data"].get(
+                    "daily_average", 0
+                )
+                if daily_avg:
+                    # Determine productivity level based on daily average coding time
+                    if daily_avg > 14400:  # More than 4 hours
+                        return "High"
+                    if daily_avg > 7200:  # More than 2 hours
+                        return "Medium"
+                    return "Low"
+            return "Unknown"
+
+        if self.entity_description.key == "most_active_time":
+            if (
+                "stats" in self.coordinator.data
+                and "data" in self.coordinator.data["stats"]
+            ):
+                best_hour = (
+                    self.coordinator.data["stats"]["data"]
+                    .get("best_day", {})
+                    .get("time", "")
+                )
+                return best_hour or "Unknown"
+            return "Unknown"
+
+        if self.entity_description.key == "current_streak":
+            if (
+                "all_time" in self.coordinator.data
+                and "data" in self.coordinator.data["all_time"]
+            ):
+                current_streak = self.coordinator.data["all_time"]["data"].get(
+                    "current_streak", 0
+                )
+                return current_streak
+            return 0
+
         return None
 
     @property
@@ -208,5 +312,38 @@ class WakatimeSensor(CoordinatorEntity, SensorEntity):
                         {"name": proj.get("name"), "percent": proj.get("percent")}
                         for proj in projects[1:5]  # Include top 5 projects
                     ]
+
+        # Add attributes for the new sensors
+        elif self.entity_description.key == "weekly_average":
+            if (
+                "last_7_days" in self.coordinator.data
+                and "data" in self.coordinator.data["last_7_days"]
+            ):
+                days = self.coordinator.data["last_7_days"]["data"]
+                if days:
+                    total_seconds = sum(
+                        day["grand_total"].get("total_seconds", 0)
+                        for day in days
+                        if "grand_total" in day
+                    )
+                    attributes["human_readable_time"] = (
+                        f"{int(total_seconds / 7 / 60)} mins"
+                    )
+                    attributes["days_with_activity"] = len(
+                        [
+                            day
+                            for day in days
+                            if day.get("grand_total", {}).get("total_seconds", 0) > 0
+                        ]
+                    )
+
+        elif self.entity_description.key == "current_streak":
+            if (
+                "all_time" in self.coordinator.data
+                and "data" in self.coordinator.data["all_time"]
+            ):
+                all_time = self.coordinator.data["all_time"]["data"]
+                attributes["best_streak"] = all_time.get("best_streak", 0)
+                attributes["best_streak_range"] = all_time.get("best_streak_range", [])
 
         return attributes

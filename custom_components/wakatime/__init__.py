@@ -69,11 +69,15 @@ class WakatimeDataUpdateCoordinator(DataUpdateCoordinator):
                 summary = await self.client.get_summary()
                 stats = await self.client.get_stats()
                 user_info = await self.client.get_user_info()
+                last_7_days = await self.client.get_last_7_days()
+                all_time = await self.client.get_all_time_since_today()
 
                 return {
                     "summary": summary,
                     "stats": stats,
                     "user_info": user_info,
+                    "last_7_days": last_7_days,
+                    "all_time": all_time,
                 }
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}") from err

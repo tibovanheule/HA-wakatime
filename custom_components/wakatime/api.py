@@ -4,7 +4,6 @@ import logging
 from datetime import datetime, timedelta
 
 import aiohttp
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -49,3 +48,19 @@ class WakatimeApiClient:
     async def get_stats(self) -> dict:
         """Get stats for the current user."""
         return await self._fetch_data("users/current/stats")
+
+    async def get_last_7_days(self) -> dict:
+        """Get stats for the last 7 days."""
+        end_date = datetime.now().strftime("%Y-%m-%d")
+        start_date = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        return await self._fetch_data(
+            f"users/current/summaries?start={start_date}&end={end_date}"
+        )
+
+    async def get_all_time_since_today(self) -> dict:
+        """Get all time stats."""
+        return await self._fetch_data("users/current/all_time_since_today")
+
+    async def get_categories(self) -> dict:
+        """Get category information."""
+        return await self._fetch_data("users/current/categories")

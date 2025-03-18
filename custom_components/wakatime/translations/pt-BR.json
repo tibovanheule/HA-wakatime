@@ -33,6 +33,21 @@
             },
             "top_operating_system": {
                 "name": "Sistema operacional principal"
+            },
+            "top_category": {
+                "name": "Categoria principal"
+            },
+            "weekly_average": {
+                "name": "Média semanal"
+            },
+            "productivity_level": {
+                "name": "Nível de produtividade"
+            },
+            "most_active_time": {
+                "name": "Horário mais ativo"
+            },
+            "current_streak": {
+                "name": "Sequência atual"
             }
         }
     }

@@ -33,6 +33,21 @@
             },
             "top_operating_system": {
                 "name": "Top Operating System"
+            },
+            "top_category": {
+                "name": "Top Category"
+            },
+            "weekly_average": {
+                "name": "Weekly Average"
+            },
+            "productivity_level": {
+                "name": "Productivity Level"
+            },
+            "most_active_time": {
+                "name": "Most Active Time"
+            },
+            "current_streak": {
+                "name": "Current Streak"
             }
         }
     }
