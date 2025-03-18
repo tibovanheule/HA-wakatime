@@ -1,0 +1,39 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Conectar ao Wakatime",
+                "description": "Digite sua chave de API Wakatime",
+                "data": {
+                    "api_key": "Chave API"
+                }
+            }
+        },
+        "error": {
+            "invalid_auth": "Autenticação inválida",
+            "unknown": "Erro inesperado"
+        },
+        "abort": {
+            "already_configured": "Conta Wakatime já está configurada"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "daily_total": {
+                "name": "Total diário"
+            },
+            "top_language": {
+                "name": "Linguagem principal"
+            },
+            "top_project": {
+                "name": "Projeto principal"
+            },
+            "top_editor": {
+                "name": "Editor principal"
+            },
+            "top_operating_system": {
+                "name": "Sistema operacional principal"
+            }
+        }
+    }
+}

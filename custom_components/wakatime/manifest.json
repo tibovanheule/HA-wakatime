@@ -1,0 +1,14 @@
+{
+  "domain": "wakatime",
+  "name": "Wakatime",
+  "config_flow": true,
+  "documentation": "https://github.com/your-username/ha-wakatime",
+  "issue_tracker": "https://github.com/your-username/ha-wakatime/issues",
+  "dependencies": [],
+  "codeowners": [
+    "@your-username"
+  ],
+  "requirements": [],
+  "iot_class": "cloud_polling",
+  "version": "0.2.0"
+}

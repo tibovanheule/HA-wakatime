@@ -1,0 +1,39 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Connect to Wakatime",
+                "description": "Enter your Wakatime API key",
+                "data": {
+                    "api_key": "API Key"
+                }
+            }
+        },
+        "error": {
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "abort": {
+            "already_configured": "Wakatime account is already configured"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "daily_total": {
+                "name": "Daily Total"
+            },
+            "top_language": {
+                "name": "Top Language"
+            },
+            "top_project": {
+                "name": "Top Project"
+            },
+            "top_editor": {
+                "name": "Top Editor"
+            },
+            "top_operating_system": {
+                "name": "Top Operating System"
+            }
+        }
+    }
+}

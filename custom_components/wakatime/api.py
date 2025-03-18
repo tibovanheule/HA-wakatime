@@ -1,0 +1,51 @@
+"""API client for Wakatime."""
+
+import logging
+from datetime import datetime, timedelta
+
+import aiohttp
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+_LOGGER = logging.getLogger(__name__)
+
+BASE_URL = "https://wakatime.com/api/v1"
+
+
+class WakatimeApiClient:
+    """API client for Wakatime."""
+
+    def __init__(self, api_key: str, session: aiohttp.ClientSession) -> None:
+        """Initialize the API client."""
+        self._api_key = api_key
+        self._session = session
+        self._headers = {"Authorization": f"Basic {api_key}"}
+
+    async def _fetch_data(self, endpoint: str) -> dict:
+        """Fetch data from the API."""
+        url = f"{BASE_URL}/{endpoint}"
+
+        async with self._session.get(url, headers=self._headers) as response:
+            if response.status != 200:
+                _LOGGER.error(
+                    "Error fetching data from Wakatime API: %s", response.status
+                )
+                return {}
+
+            data = await response.json()
+            return data
+
+    async def get_user_info(self) -> dict:
+        """Get user information."""
+        return await self._fetch_data("users/current")
+
+    async def get_summary(self) -> dict:
+        """Get summary for today."""
+        today = datetime.now().strftime("%Y-%m-%d")
+        yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        return await self._fetch_data(
+            f"users/current/summaries?start={yesterday}&end={today}"
+        )
+
+    async def get_stats(self) -> dict:
+        """Get stats for the current user."""
+        return await self._fetch_data("users/current/stats")
