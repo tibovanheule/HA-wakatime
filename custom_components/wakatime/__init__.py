@@ -25,7 +25,7 @@ PLATFORMS = [Platform.SENSOR]
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Wakatime from a config entry."""
     api_key = entry.data[CONF_API_KEY]
-    base_url = user_input.get(CONF_BASE_URL, "https://wakatime.com/api/v1")
+    base_url = entry.data.get(CONF_BASE_URL, "https://wakatime.com/api/v1")
     session = async_get_clientsession(hass)
     client = WakatimeApiClient(api_key, session, base_url=base_url)
 
