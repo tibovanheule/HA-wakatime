@@ -22,7 +22,7 @@ class WakatimeApiClient:
             api_key = b.decode('utf-8')  # convert bytes to
             # endpoints differ a little bit
             if "compat/wakatime" not in base_url:
-                base_url += "/compat/wakatime/api/v1"
+                base_url += "/compat/wakatime/v1"
         if base_url.endswith("/"):
             # avoid // in url
             base_url = base_url[:-1]
