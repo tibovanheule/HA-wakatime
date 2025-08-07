@@ -34,8 +34,6 @@ class WakatimeApiClient:
     async def _fetch_data(self, endpoint: str) -> dict:
         """Fetch data from the API."""
         url = f"{self._base_url}/{endpoint}"
-        print("url", url)
-        print("headers", self._headers)
         async with self._session.get(url, headers=self._headers) as response:
             if response.status != 200:
                 _LOGGER.error(
