@@ -7,21 +7,19 @@ import aiohttp
 
 _LOGGER = logging.getLogger(__name__)
 
-BASE_URL = "https://wakatime.com/api/v1"
-
-
 class WakatimeApiClient:
     """API client for Wakatime."""
 
-    def __init__(self, api_key: str, session: aiohttp.ClientSession) -> None:
+    def __init__(self, api_key: str, session: aiohttp.ClientSession, base_url:str="https://wakatime.com/api/v1") -> None:
         """Initialize the API client."""
         self._api_key = api_key
         self._session = session
         self._headers = {"Authorization": f"Basic {api_key}"}
+        self._base_url = base_url
 
     async def _fetch_data(self, endpoint: str) -> dict:
         """Fetch data from the API."""
-        url = f"{BASE_URL}/{endpoint}"
+        url = f"{self._base_url}/{endpoint}"
 
         async with self._session.get(url, headers=self._headers) as response:
             if response.status != 200:
