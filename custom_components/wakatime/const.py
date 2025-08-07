@@ -7,6 +7,7 @@ LOGGER: Logger = getLogger(__package__)
 DOMAIN = "wakatime"
 NAME = "Wakatime"
 SCAN_INTERVAL = 30  # Minutes
+DEFAULT_BASE_URL = "https://wakatime.com/api/v1"
 
 # Icons
 ICON_CODING = "mdi:code-braces"
