@@ -39,7 +39,7 @@ class WakatimeApiClient:
         async with self._session.get(url, headers=self._headers) as response:
             if response.status != 200:
                 _LOGGER.error(
-                    "Error fetching data from Wakatime API: %s", response.status
+                    "Error fetching data from Wakatime API: %s, %s", response.status, url
                 )
                 return {}
 
