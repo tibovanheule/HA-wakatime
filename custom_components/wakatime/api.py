@@ -13,19 +13,24 @@ import base64
 class WakatimeApiClient:
     """API client for Wakatime."""
 
-    def __init__(self, api_key: str, session: aiohttp.ClientSession,
-                 base_url: str = "https://wakatime.com/api/v1") -> None:
-        """Initialize the API client."""
+    def _prepare_auth_and_url(self, api_key: str, base_url: str) -> tuple[str, str]:
+        """Prepare authentication and URL for different API providers."""
         if "wakatime.com" not in base_url:
-            # needs to be base64 encoded to work
-            b = base64.b64encode(bytes(api_key, 'utf-8'))  # bytes
-            api_key = b.decode('utf-8')  # convert bytes to
-            # endpoints differ a little bit
+            # Wakapi needs base64 encoded API key
+            b = base64.b64encode(bytes(api_key, 'utf-8'))
+            api_key = b.decode('utf-8')
+            # Wakapi endpoints differ from Wakatime
             if "compat/wakatime" not in base_url:
                 base_url += "/compat/wakatime/v1"
         if base_url.endswith("/"):
             # avoid // in url
             base_url = base_url[:-1]
+        return api_key, base_url
+
+    def __init__(self, api_key: str, session: aiohttp.ClientSession,
+                 base_url: str = "https://wakatime.com/api/v1") -> None:
+        """Initialize the API client."""
+        api_key, base_url = self._prepare_auth_and_url(api_key, base_url)
         self._api_key = api_key
         self._session = session
         self._headers = {"Authorization": f"Basic {api_key}"}
