@@ -10,27 +10,27 @@ _LOGGER = logging.getLogger(__name__)
 import base64
 
 
+def _prepare_auth_and_url(api_key: str, base_url: str) -> tuple[str, str]:
+    """Prepare authentication and URL for different API providers."""
+    if "wakatime.com" not in base_url:
+        # Wakapi needs base64 encoded API key
+        api_key = base64.b64encode(bytes(api_key, 'utf-8')).decode('utf-8')
+        # Wakapi endpoints differ from Wakatime
+        if "compat/wakatime" not in base_url:
+            base_url += "/compat/wakatime/v1"
+    if base_url.endswith("/"):
+        # avoid // in url
+        base_url = base_url[:-1]
+    return api_key, base_url
+
+
 class WakatimeApiClient:
     """API client for wakapi."""
-
-    def _prepare_auth_and_url(self, api_key: str, base_url: str) -> tuple[str, str]:
-        """Prepare authentication and URL for different API providers."""
-        if "wakatime.com" not in base_url:
-            # Wakapi needs base64 encoded API key
-            b = base64.b64encode(bytes(api_key, 'utf-8'))
-            api_key = b.decode('utf-8')
-            # Wakapi endpoints differ from Wakatime
-            if "compat/wakatime" not in base_url:
-                base_url += "/compat/wakatime/v1"
-        if base_url.endswith("/"):
-            # avoid // in url
-            base_url = base_url[:-1]
-        return api_key, base_url
 
     def __init__(self, api_key: str, session: aiohttp.ClientSession,
                  base_url: str = "https://wakatime.com/api/v1") -> None:
         """Initialize the API client."""
-        api_key, base_url = self._prepare_auth_and_url(api_key, base_url)
+        api_key, base_url = _prepare_auth_and_url(api_key, base_url)
         self._api_key = api_key
         self._session = session
         self._headers = {"Authorization": f"Basic {api_key}"}
