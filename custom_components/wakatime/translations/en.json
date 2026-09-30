@@ -2,8 +2,8 @@
     "config": {
         "step": {
             "user": {
-                "title": "Connect to Wakatime",
-                "description": "Enter your Wakatime API key",
+                "title": "Connect to wakapi",
+                "description": "Enter your wakapi API key",
                 "data": {
                     "api_key": "API Key"
                 }
@@ -14,7 +14,7 @@
             "unknown": "Unexpected error"
         },
         "abort": {
-            "already_configured": "Wakatime account is already configured"
+            "already_configured": "wakapi account is already configured"
         }
     },
     "entity": {

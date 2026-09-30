@@ -1,11 +1,11 @@
-"""Constants for the Wakatime integration."""
+"""Constants for the wakapi integration."""
 
 from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 
-DOMAIN = "wakatime"
-NAME = "Wakatime"
+DOMAIN = "wakapi"
+NAME = "wakapi"
 SCAN_INTERVAL = 30  # Minutes
 
 # Icons

@@ -1,9 +1,9 @@
 {
-  "domain": "wakatime",
-  "name": "Wakatime",
+  "domain": "wakapi",
+  "name": "wakapi",
   "config_flow": true,
-  "documentation": "https://github.com/hudsonbrendon/HA-wakatime",
-  "issue_tracker": "https://github.com/hudsonbrendon/HA-wakatime/issues",
+  "documentation": "https://github.com/hudsonbrendon/HA-wakapi",
+  "issue_tracker": "https://github.com/hudsonbrendon/HA-wakapi/issues",
   "dependencies": [],
   "codeowners": [
     "@hudsonbrendon"

@@ -1,4 +1,4 @@
-"""The Wakatime integration."""
+"""The wakapi integration."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Wakatime from a config entry."""
+    """Set up wakapi from a config entry."""
     api_key = entry.data[CONF_API_KEY]
     base_url = entry.data.get(CONF_BASE_URL, "https://wakatime.com/api/v1")
     session = async_get_clientsession(hass)
@@ -50,7 +50,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 class WakatimeDataUpdateCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching Wakatime data."""
+    """Class to manage fetching wakapi data."""
 
     def __init__(self, hass: HomeAssistant, client: WakatimeApiClient) -> None:
         """Initialize."""

@@ -1,6 +1,6 @@
-# Wakatime Integration for Home Assistant
+# wakapi Integration for Home Assistant
 
-This Home Assistant integration allows you to monitor your coding activity through the Wakatime API.
+This Home Assistant integration allows you to monitor your coding activity through the wakapi API.
 
 ## Features
 
@@ -20,27 +20,27 @@ This Home Assistant integration allows you to monitor your coding activity throu
 3. Click on the three dots in the top right corner and select "Custom repositories"
 4. Add this repository URL and select "Integration" as the category
 5. Click "Add"
-6. Search for "Wakatime" and install it
+6. Search for "wakapi" and install it
 
 ### Manual Installation
 
 1. Download the latest release from the releases page
-2. Extract the `custom_components/wakatime` folder into your Home Assistant's `custom_components` directory
+2. Extract the `custom_components/wakapi` folder into your Home Assistant's `custom_components` directory
 3. Restart Home Assistant
 
 ## Configuration
 
 1. In Home Assistant, go to Configuration > Integrations
-2. Click "Add Integration" and search for "Wakatime"
+2. Click "Add Integration" and search for "wakapi"
 3. Follow the configuration steps:
-   - Enter your Wakatime API key (You can find this in your Wakatime account settings)
+   - Enter your wakapi API key (You can find this in your wakapi account settings)
 
 ## API Key
 
-To obtain your Wakatime API key:
+To obtain your wakapi API key:
 
-1. Log in to your Wakatime account
-2. Go to [Account Settings](https://wakatime.com/settings/account)
+1. Log in to your wakapi account
+2. Go to [Account Settings](https://wakapi.com/settings/account)
 3. Find your API Key in the "API Key" section
 
 ## Sensors
@@ -62,7 +62,7 @@ automation:
   - alias: "Coding Break Reminder"
     trigger:
       platform: numeric_state
-      entity_id: sensor.wakatime_daily_total
+      entity_id: sensor.wakapi_daily_total
       above: 14400  # 4 hours in seconds
     action:
       service: notify.mobile_app

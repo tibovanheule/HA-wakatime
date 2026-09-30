@@ -1,4 +1,4 @@
-"""Sensor platform for Wakatime integration."""
+"""Sensor platform for wakapi integration."""
 
 from __future__ import annotations
 
@@ -103,7 +103,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up Wakatime sensor based on a config entry."""
+    """Set up wakapi sensor based on a config entry."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
     async_add_entities(
@@ -116,7 +116,7 @@ async def async_setup_entry(
 
 
 class WakatimeSensor(CoordinatorEntity, SensorEntity):
-    """Representation of a Wakatime sensor."""
+    """Representation of a wakapi sensor."""
 
     coordinator: WakatimeDataUpdateCoordinator
     _attr_has_entity_name = True
@@ -135,8 +135,8 @@ class WakatimeSensor(CoordinatorEntity, SensorEntity):
             user = coordinator.data["user_info"]["data"]
             self._attr_device_info = {
                 "identifiers": {(DOMAIN, user.get("id", ""))},
-                "name": user.get("display_name", "Wakatime"),
-                "manufacturer": "Wakatime",
+                "name": user.get("display_name", "wakapi"),
+                "manufacturer": "wakapi",
                 "model": "API",
             }
 

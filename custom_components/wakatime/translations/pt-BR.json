@@ -2,8 +2,8 @@
     "config": {
         "step": {
             "user": {
-                "title": "Conectar ao Wakatime",
-                "description": "Digite sua chave de API Wakatime",
+                "title": "Conectar ao wakapi",
+                "description": "Digite sua chave de API wakapi",
                 "data": {
                     "api_key": "Chave API"
                 }
@@ -14,7 +14,7 @@
             "unknown": "Erro inesperado"
         },
         "abort": {
-            "already_configured": "Conta Wakatime já está configurada"
+            "already_configured": "Conta wakapi já está configurada"
         }
     },
     "entity": {

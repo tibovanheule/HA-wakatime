@@ -1,4 +1,4 @@
-"""API client for Wakatime."""
+"""API client for wakapi."""
 
 import logging
 from datetime import datetime, timedelta
@@ -11,7 +11,7 @@ import base64
 
 
 class WakatimeApiClient:
-    """API client for Wakatime."""
+    """API client for wakapi."""
 
     def _prepare_auth_and_url(self, api_key: str, base_url: str) -> tuple[str, str]:
         """Prepare authentication and URL for different API providers."""
@@ -54,7 +54,7 @@ class WakatimeApiClient:
         return await self._fetch_data("users/current")
 
     async def get_summary(self) -> dict:
-        """Get summary for today."""
+        """Get a summary for today."""
         today = datetime.now().strftime("%Y-%m-%d")
         yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
         return await self._fetch_data(
@@ -74,7 +74,7 @@ class WakatimeApiClient:
         )
 
     async def get_all_time_since_today(self) -> dict:
-        """Get all time stats."""
+        """Get all-time stats."""
         return await self._fetch_data("users/current/all_time_since_today")
 
     async def get_categories(self) -> dict:

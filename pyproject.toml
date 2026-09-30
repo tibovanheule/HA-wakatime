@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wakapi"
+version = "v1.0"
+description = " "
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "homeassistant",
+    "voluptuous",
+    "aiohttp"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]

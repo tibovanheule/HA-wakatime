@@ -1,4 +1,4 @@
-"""Config flow for Wakatime integration."""
+"""Config flow for wakapi integration."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class WakatimeConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Wakatime."""
+    """Handle a config flow for wakapi."""
 
     VERSION = 1
 
