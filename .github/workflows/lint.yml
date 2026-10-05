@@ -19,10 +19,24 @@ jobs:
           uses: "actions/checkout@master"
 
         - name: "Set up Python"
-          uses: actions/setup-python@master
+          uses: "actions/setup-python@master"
           with:
             python-version: "3.14.5"
 
         - name: "Install requirements"
           run: python3 -m pip install .[dev]
-
+        - uses: "ricardochaves/python-lint@master"
+          with:
+            python-root-list: "custom_components"
+            use-pylint: true
+            use-pycodestyle: false
+            use-flake8: true
+            use-black: false
+            use-mypy: false
+            use-isort: false
+            extra-pylint-options: ""
+            extra-pycodestyle-options: ""
+            extra-flake8-options: ""
+            extra-black-options: ""
+            extra-mypy-options: ""
+            extra-isort-options: ""
