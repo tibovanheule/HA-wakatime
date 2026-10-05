@@ -1,13 +1,12 @@
 """API client for wakapi."""
 
+import base64
 import logging
 from datetime import datetime, timedelta
 
 import aiohttp
 
 _LOGGER = logging.getLogger(__name__)
-
-import base64
 
 
 def _prepare_auth_and_url(api_key: str, base_url: str) -> tuple[str, str]:

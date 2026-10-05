@@ -25,7 +25,7 @@ ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: HomeAssistant,  # noqa: ARG001 Unused function argument: `hass`
+    hass: HomeAssistant,
     entry: IntegrationBlueprintConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
@@ -55,6 +55,16 @@ class IntegrationBlueprintSwitch(IntegrationBlueprintEntity, SwitchEntity):
     def is_on(self) -> bool:
         """Return true if the switch is on."""
         return self.coordinator.data.get("title", "") == "foo"
+
+    def turn_on(self, **_: Any) -> None:
+        """Turn on the switch."""
+        self.coordinator.config_entry.runtime_data.client.set_title("bar")
+        self.coordinator.request_refresh()
+
+    def turn_off(self, **_: Any) -> None:
+        """Turn off the switch."""
+        self.coordinator.config_entry.runtime_data.client.set_title("foo")
+        self.coordinator.request_refresh()
 
     async def async_turn_on(self, **_: Any) -> None:
         """Turn on the switch."""
